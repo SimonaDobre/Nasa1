@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Nasa1</string>
+
+    <string-array name="diamteru">
+        <item>diametru(m)</item>
+        <item>&lt;3 </item>
+        <item>3-29</item>
+        <item>30-49</item>
+        <item>50-99</item>
+        <item>100-500</item>
+        <item>&gt;501</item>
+        // aici este caracterul &gt;500 desi este afisat caracterul >500
+    </string-array>
+
+    <string-array name="pericol">
+        <item>sanseLovire(%)</item>
+        <item>&lt;0.1</item>
+        <item>0.1-0.3</item>
+        <item>0.3-0.5</item>
+        <item>&gt;0.5</item>
+    </string-array>
+
+    <string-array name="dataApropiata">
+        <item>anul</item>
+        <item>prezent-2030</item>
+        <item>2030-2060</item>
+        <item>2060-2090</item>
+        <item>2090-</item>
+
+    </string-array>
+    <string name="title_activity_fireball_maps">Map</string>
+
+
+</resources>
