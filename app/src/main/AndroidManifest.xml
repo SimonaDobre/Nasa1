@@ -33,14 +33,13 @@
         <activity
             android:name=".FireballMapsActivity"
             android:label="@string/title_activity_fireball_maps"></activity>
-        <activity android:name=".FireballActivity" />
-        <activity android:name=".AsterCeiMaiApropiatiActivity" />
-        <activity android:name=".AsterPericulosActivity" />
+        <activity android:name=".NearestAsteroidsActivity" />
+        <activity android:name=".AsteroidAproachingDatesActivity" />
         <activity android:name=".AMDDactivity" />
-        <activity android:name=".AsteroMonitorizatiActivity" />
-        <activity android:name=".PozeCuPamantulActivity" />
-        <activity android:name=".AsteroiziActivity" />
-        <activity android:name=".PozeMarteActivity" />
+        <activity android:name=".MonitoredAsteroidsActivity" />
+        <activity android:name=".EarthPicturesActivity" />
+        <activity android:name=".AsteroidsActivity" />
+        <activity android:name=".MarsPicturesActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

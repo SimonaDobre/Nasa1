@@ -1,151 +1,141 @@
 package com.simona.nasa1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.util.Linkify;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.simona.nasa1.firstPagePictureOfTheDay.PictureOfTheDay;
+import com.simona.nasa1.firstPagePictureOfTheDay.UtilsFirstPage;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button catrePozaMarsBtn,  asteroiziBtn, catrePozeCuPamantulBtn, monitorizatiBtn, cautaPersonalizat, fireballBtn;
+    public static final String API_KEY = BuildConfig.API_KEY;
+    Button toMarsPictureBtn, asteroidsBtn, toEarthPictureBtn,
+            toMonitoredBtn, specificSearchBtn, fireballBtn;
     ImageView pictureOfTheDay;
-    TextView explicatia, titlu, linkPtVideo, info;
+    TextView explanationTV, titleTV, infoTV; // linkForVideoTV;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
-        actiuneButoane();
-
-        ClasaAyncPozaZilei clasaAyncPozaZilei = new ClasaAyncPozaZilei();
-        clasaAyncPozaZilei.execute(linkulAccesatPtPozaZilet());
+        initViews();
+        getPictureOfTheDay();
 
     }
 
+    void getPictureOfTheDay() {
+        final PictureOfTheDay[] pz = new PictureOfTheDay[1];
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String apiUrl = linkForPictureOfTheDay();
+                pz[0] = UtilsFirstPage.obtainPictureOfTheDay(apiUrl);
 
-    private String dataDeAzi(){
-        Date dataDeAzi = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String azi = dateFormat.format(dataDeAzi);
-        return azi;
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        titleTV.setText(pz[0].getTitle());
+                        explanationTV.setText(pz[0].getExplanation());
+                        if (pz[0].getMediaType().equals("image")) {
+                            Picasso.with(MainActivity.this).load(pz[0].getPictureURL()).into(pictureOfTheDay);
+                            infoTV.setText("Poza zilei " + todayDate());
+                        } else {
+                            pictureOfTheDay.setVisibility(View.GONE);
+//                            linkForVideoTV.setVisibility(View.VISIBLE);
+//                            linkForVideoTV.setText("Acesta este situl: " + pz[0].getPictureURL());
+                            // linkForVideo.setMovementMethod(LinkMovementMethod.getInstance());
+//                            Linkify.addLinks(linkForVideoTV, Linkify.WEB_URLS);
+                            infoTV.setText("Filmul zilei de " + todayDate());
+                        }
+                    }
+                });
+            }
+        });
+        thread.start();
     }
 
-    private String linkulAccesatPtPozaZilet(){
+    private String todayDate() {
+        Date todayDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(todayDate);
+    }
+
+    private String linkForPictureOfTheDay() {
         String x = "https://api.nasa.gov/planetary/apod?date="
-                + dataDeAzi()
-                + "&api_key=kEfXDqiER0JSBhCQEt86TlQVC3FSkG5sF3X9y46N";
+                + todayDate()
+                + "&api_key=" + API_KEY;
         return x;
     }
 
+    @Override
+    public void onClick(View view) {
+        int clickedID = view.getId();
+        switch (clickedID) {
 
-    public class ClasaAyncPozaZilei extends AsyncTask<String, Void, PozaZilei>{
+            case R.id.toMarsPicturesBtn:
+                startActivity(new Intent(MainActivity.this, MarsPicturesActivity.class));
+                break;
 
-        @Override
-        protected PozaZilei doInBackground(String... strings) {
-            PozaZilei poz = UtilsPtPrimaPagina.toateLaUnLoc(strings[0]);
-            return poz;
+            case R.id.toAsteroidsBtn:
+                startActivity(new Intent(MainActivity.this, AsteroidsActivity.class));
+                break;
+
+            case R.id.toEarthPicturesBtn:
+                startActivity(new Intent(MainActivity.this, EarthPicturesActivity.class));
+                break;
+
+            case R.id.toMonitoredBtn:
+                startActivity(new Intent(MainActivity.this, MonitoredAsteroidsActivity.class));
+                break;
+
+            case R.id.toClosestAsteroidsBtn:
+                startActivity(new Intent(MainActivity.this, NearestAsteroidsActivity.class));
+                break;
+
+            case R.id.fireballBtn:
+                startActivity(new Intent(MainActivity.this, FireballMapsActivity.class));
+                break;
         }
-
-        @Override
-        protected void onPostExecute(PozaZilei pozaZilei) {
-            titlu.setText(pozaZilei.getTitle());
-            explicatia.setText(pozaZilei.getExplanation());
-            if (pozaZilei.getMediaType().equals("image")){
-                Picasso.with(MainActivity.this).load(pozaZilei.getPictureURL()).into(pictureOfTheDay);
-                info.setText("Poza zilei de " + dataDeAzi());
-            }
-            else {
-                pictureOfTheDay.setVisibility(View.GONE);
-                linkPtVideo.setVisibility(View.VISIBLE);
-                linkPtVideo.setText("Acesta este situl: " + pozaZilei.getPictureURL());
-               // linkPtVideo.setMovementMethod(LinkMovementMethod.getInstance());
-
-                Linkify.addLinks(linkPtVideo, Linkify.WEB_URLS);
-
-                info.setText("Filmul zilei de " + dataDeAzi());
-            }
-        }
     }
 
-    private void actiuneButoane(){
-        catrePozaMarsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, PozeMarteActivity.class));
-                Toast.makeText(MainActivity.this, "In curs de actualizare.", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void initViews() {
+        handler = new Handler(Looper.getMainLooper());
 
+        toMarsPictureBtn = findViewById(R.id.toMarsPicturesBtn);
+        asteroidsBtn = findViewById(R.id.toAsteroidsBtn);
+        toEarthPictureBtn = findViewById(R.id.toEarthPicturesBtn);
+        toMonitoredBtn = findViewById(R.id.toMonitoredBtn);
+        specificSearchBtn = findViewById(R.id.toClosestAsteroidsBtn);
+        fireballBtn = findViewById(R.id.fireballBtn);
 
-        asteroiziBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AsteroiziActivity.class));
-            }
-        });
+        toMarsPictureBtn.setOnClickListener(this::onClick);
+        asteroidsBtn.setOnClickListener(this::onClick);
+        toEarthPictureBtn.setOnClickListener(this::onClick);
+        toMonitoredBtn.setOnClickListener(this::onClick);
+        specificSearchBtn.setOnClickListener(this::onClick);
+        fireballBtn.setOnClickListener(this::onClick);
 
-        catrePozeCuPamantulBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PozeCuPamantulActivity.class));
-            }
-        });
-
-        monitorizatiBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, AsteroMonitorizatiActivity.class));
-                Toast.makeText(MainActivity.this, "In curs de actualizare.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        cautaPersonalizat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AsterCeiMaiApropiatiActivity.class ));
-            }
-        });
-
-        fireballBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FireballMapsActivity.class ));
-            }
-        });
+        pictureOfTheDay = findViewById(R.id.pictureOfTheDayIV);
+        explanationTV = findViewById(R.id.explanationTV);
+        titleTV = findViewById(R.id.titleTV);
+//        linkForVideoTV = findViewById(R.id.textView5);
+        infoTV = findViewById(R.id.infoTV);
     }
-
-
-    private void init(){
-        catrePozaMarsBtn = findViewById(R.id.button);
-        pictureOfTheDay = findViewById(R.id.imageView2);
-        explicatia = findViewById(R.id.textView3);
-        titlu = findViewById(R.id.textView4);
-        linkPtVideo = findViewById(R.id.textView5);
-        info = findViewById(R.id.textView);
-        asteroiziBtn = findViewById(R.id.button3);
-        catrePozeCuPamantulBtn = findViewById(R.id.button4);
-        monitorizatiBtn = findViewById(R.id.buttonMonitorizati);
-        cautaPersonalizat = findViewById(R.id.buttonCautaPersonalizat);
-        fireballBtn = findViewById(R.id.buttonFireball);
-    }
-
-
 
 
 }

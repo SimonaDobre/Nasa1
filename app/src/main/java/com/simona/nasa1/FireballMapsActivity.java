@@ -1,16 +1,15 @@
 package com.simona.nasa1;
 
-import androidx.fragment.app.FragmentActivity;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,15 +17,21 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.simona.nasa1.fireball.Fireball;
+import com.simona.nasa1.fireball.FireballUTILS;
 
 import java.util.ArrayList;
 
 public class FireballMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, View.OnHoverListener {
 
-    public GoogleMap mMap;
-    ArrayList<LatLng> sirLocatii;
-    ArrayList<Marker> sirMarkeri;
-    ArrayList<Fireballs> sirFireballs;
+    public GoogleMap myMap;
+    ArrayList<LatLng> locationsArray;
+    ArrayList<Marker> markersArray;
+    ArrayList<Fireball> fireballsArray;
+    Handler handler;
+
+    // TUNGUSKA
+    // GOLFUL MEXIC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +42,121 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        sirLocatii = new ArrayList<>();
-        sirMarkeri = new ArrayList<>();
-        sirFireballs = new ArrayList<>();
-
-        ClasaAsyncFireball clasaAsyncFireball = new ClasaAsyncFireball();
-        clasaAsyncFireball.execute(linkulDeAccesat());
-
-      //  mMap.setOnMarkerClickListener(this);
+        initViews();
+        displayFireballsLocations();
 
     }
 
+    void displayFireballsLocations() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getFireballs();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayHitPlaces();
+                    }
+                });
+            }
+        });
+        thread.start();
+    }
+
+    void getFireballs() {
+        fireballsArray = FireballUTILS.getFireballArray(urlFireballs());
+    }
+
+    void displayHitPlaces() {
+        for (int i = 0; i < fireballsArray.size(); i++) {
+            Fireball currentFireball = fireballsArray.get(i);
+            double currentFireballLatitude = Double.parseDouble(fireballsArray.get(i).getLatNr());
+//            Log.i("lati din fireballs=", currentFireballLatitude + "");
+            if (fireballsArray.get(i).getLatNS().equals("S")) {
+                currentFireballLatitude = -currentFireballLatitude;
+            }
+            double currentFireballLongitude = Double.parseDouble(fireballsArray.get(i).getLongNr());
+            if (fireballsArray.get(i).getLongEW().equals("W")) {
+                currentFireballLongitude = -currentFireballLongitude;
+            }
+            LatLng location = new LatLng(currentFireballLatitude, currentFireballLongitude);
+            MarkerOptions mo = new MarkerOptions().position(location);
+            if (Double.parseDouble(currentFireball.getEnergy()) < 0.2) {
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            } else if (Double.parseDouble(currentFireball.getEnergy()) < 0.5) {
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            } else if (Double.parseDouble(currentFireball.getEnergy()) < 1) {
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            } else if (Double.parseDouble(currentFireball.getEnergy()) < 3) {
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            } else {
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+            }
+
+            Marker mar = myMap.addMarker(mo);
+            markersArray.add(mar);
+
+            myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                // Use default InfoWindow frame
+                @Override
+                public View getInfoWindow(Marker arg0) {
+                    return null;
+                }
+
+                // Defines the contents of the InfoWindow
+                @Override
+                public View getInfoContents(Marker mar) {
+
+                    // Getting view from the layout file info_window_layout
+                    View v = getLayoutInflater().inflate(R.layout.fireball_info_window, null);
+
+                    // Getting the position from the marker
+                    // LatLng latLng = mar.getPosition();
+                    // Getting reference to the TextView to set anything
+                    TextView date, energy, lat, lng;
+                    date = v.findViewById(R.id.textView8);
+                    energy = v.findViewById(R.id.textView9);
+                    lat = v.findViewById(R.id.textView10);
+                    lng = v.findViewById(R.id.textView11);
+
+                    int i = markersArray.indexOf(mar);
+                    Fireball fb = fireballsArray.get(i);
+                    date.setText("Data = " + fb.getDate());
+                    double hiroshimaMultiplier = Double.parseDouble(fb.getEnergy());
+                    energy.setText("Energia= " + fb.getEnergy() + " kiloTone, adica  \n");
+                    if (hiroshimaMultiplier < 15){
+                        energy.append("de " + String.format("%.2f", 15 / hiroshimaMultiplier) + " ori mai mica decat bomba de la Hiroshima");
+                    } else if (hiroshimaMultiplier == 15){
+                        energy.append("egala cu bomba de la Hiroshima");
+                    } else {
+                        energy.append("de " +  String.format("%.2f", hiroshimaMultiplier / 15) + " ori mai mare decat bomba de la Hiroshima");
+                    }
+
+                    lat.setText("Latitudine= " + fb.getLatNr() + fb.getLatNS());
+                    lng.setText("Longitudine= " + fb.getLongNr() + fb.getLongEW());
+
+                    // Returning the view containing InfoWindow contents
+                    return v;
+                }
+            });
+
+        }
+    }
+
+    private void initViews() {
+        handler = new Handler(Looper.getMainLooper());
+        locationsArray = new ArrayList<>();
+        markersArray = new ArrayList<>();
+        fireballsArray = new ArrayList<>();
+    }
 
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
-
         Toast.makeText(this, "click pe " + marker.getTitle(), Toast.LENGTH_SHORT).show();
         return false;
     }
+
 
     @Override
     public boolean onHover(View view, MotionEvent motionEvent) {
@@ -64,151 +164,15 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
     }
 
 
-    private class ClasaAsyncFireball extends AsyncTask<String, Void, ArrayList<Fireballs>> {
+    private String urlFireballs() {
+        // this link returns the most recent 20 events
+        String last20 = "https://ssd-api.jpl.nasa.gov/fireball.api?limit=20";
 
-        @Override
-        protected ArrayList<Fireballs> doInBackground(String... strings) {
-            return UtilsFireball.toateOdata(strings[0]);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Fireballs> fireballs) {
-            sirFireballs = fireballs;
-            Log.i("lati SIZE=", fireballs.size() + "");
-            for (int i = 0; i < fireballs.size(); i++) {
-                Fireballs fbCurent = sirFireballs.get(i);
-                double latiObtinuta = Double.parseDouble(fireballs.get(i).getLatNr());
-                Log.i("lati din fireballs=", latiObtinuta + "");
-                if (fireballs.get(i).getLatNS().equals("S")) {
-                    latiObtinuta = -latiObtinuta;
-                }
-                double longiObtinuta = Double.parseDouble(fireballs.get(i).getLongNr());
-                if (fireballs.get(i).getLongEW().equals("W")) {
-                    longiObtinuta = -longiObtinuta;
-                }
-                LatLng locatia = new LatLng(latiObtinuta, longiObtinuta);
-                MarkerOptions mo = new MarkerOptions().position(locatia);
-                if (Double.parseDouble(fbCurent.getEnergia()) < 0.2){
-                    mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                }
-                else if (Double.parseDouble(fbCurent.getEnergia()) < 0.5){
-                    mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-                }
-                else if (Double.parseDouble(fbCurent.getEnergia()) < 1 ){
-                    mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                }
-                else if (Double.parseDouble(fbCurent.getEnergia()) < 3 ){
-                    mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-                else {
-                    mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-                }
-
-                Marker mar = mMap.addMarker(mo);
-                // in felul asta, zice ca il asociez pe Marker cu un obiect Fireballss
-                //  mar.setTag(fireballs.get(i));
-                // nu am testat sa vad cum merge
-                sirMarkeri.add(mar);
-
-
-//               mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-//                    @Override
-//                    // FOLOSESTE FEREASTRA DEFAULT
-//                    public View getInfoWindow(Marker marker) {
-//                        return fereastraInformareFireball(marker);
-//                    }
-//
-//                    @Override
-//                    // DEFINESTE CONTINUTUL LUI INFOWINDOW
-//                    public View getInfoContents(Marker marker) {
-//                        return null;
-//                    }
-//                });
-
-                //  mar.showInfoWindow();
-
-                // sirLocatii.add(locatia);
-
-                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-                    // Use default InfoWindow frame
-                    @Override
-                    public View getInfoWindow(Marker arg0) {
-                        return null;
-                    }
-
-                    // Defines the contents of the InfoWindow
-                    @Override
-                    public View getInfoContents(Marker mar) {
-
-                        // Getting view from the layout file info_window_layout
-                        View v = getLayoutInflater().inflate(R.layout.fireball_infoo_window, null);
-
-                        // Getting the position from the marker
-                        //LatLng latLng = mar.getPosition();
-
-                        // Getting reference to the TextView to set orice vreau sa setez
-                        TextView data, energia, lat, lng;
-                        data = v.findViewById(R.id.textView8);
-                        energia = v.findViewById(R.id.textView9);
-                        lat = v.findViewById(R.id.textView10);
-                        lng = v.findViewById(R.id.textView11);
-                        //tvLat = (TextView) v.findViewById(R.id.tv_lat);
-
-                        int i = sirMarkeri.indexOf(mar);
-                        Fireballs fb = sirFireballs.get(i);
-                        data.setText("Data = " + fb.getData());
-                        energia.setText("Energia= " + fb.getEnergia() + " kiloTone");
-                        lat.setText("Latitudine= " + fb.getLatNr() + fb.getLatNS());
-                        lng.setText("Longitudine= " + fb.getLongNr() + fb.getLongEW());
-                        // Setting the latitude
-                        //  tvLat.setText(duration);
-
-                        // Returning the view containing InfoWindow contents
-                        return v;
-                    }
-                });
-
-
-
-            }
-        }
+        // this link returns all recorded events
+        String allEvents = "https://ssd-api.jpl.nasa.gov/fireball.api";
+        return allEvents;
     }
 
-
-    public void testClick(){
-
-    }
-
-    public View fereastraInformareFireball(Marker m) {
-        View v = getLayoutInflater().inflate(R.layout.fireball_infoo_window, null);
-        TextView data, energia, lat, lng;
-        data = v.findViewById(R.id.textView8);
-        energia = v.findViewById(R.id.textView9);
-        lat = v.findViewById(R.id.textView10);
-        lng = v.findViewById(R.id.textView11);
-        // iau indexul markerului m si extrag din sirFireballs, acel element
-        // care contine datele corespondente ale markerului respectiv
-        // metoda mMap.setInfoWindowAdapter ma obliga sa pun ca parametru un
-        // Marker. As fi pus un Fireball
-        int i = sirMarkeri.indexOf(m);
-        Fireballs fb = sirFireballs.get(i);
-        data.setText("Data = " + fb.getData());
-        energia.setText("Energia= " + fb.getEnergia() + " kiloTone");
-        lat.setText("Latitudine= " + fb.getLatNr() + fb.getLatNS());
-        lng.setText("Longitudine= " + fb.getLongNr() + fb.getLongEW());
-        return v;
-    }
-
-
-    private String linkulDeAccesat() {
-        // asta returneaza doar ultimele 20 cele mai recente
-        String x = "https://ssd-api.jpl.nasa.gov/fireball.api?limit=20";
-
-        // asta returneaza toate fireballurile cazute vreodata
-        String toate = "https://ssd-api.jpl.nasa.gov/fireball.api";
-
-        return toate;
-    }
 
     /**
      * Manipulates the map once available.
@@ -220,16 +184,12 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
      * installed Google Play services and returned to the app.
      */
     @Override
-
-
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
+        myMap = googleMap;
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
 
     }
 

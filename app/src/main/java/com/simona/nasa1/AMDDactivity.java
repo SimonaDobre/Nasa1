@@ -1,105 +1,107 @@
 package com.simona.nasa1;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
+import com.simona.nasa1.amdd.AMDD;
+import com.simona.nasa1.amdd.AMDDutils;
+import com.simona.nasa1.amdd.AMDDadapter;
 
 import java.util.ArrayList;
 
 public class AMDDactivity extends AppCompatActivity {
 
-    TextView nume, diametru, viteza;
+    ArrayList<AMDD> monitorizedAsteroidDetailsArray;
+    TextView nameTV, diameterTV, speedTV, loadingTV;
+    ProgressBar progressBar;
     RecyclerView rv;
-    AdapterAMDD mAdapter;
-   // ArrayList<AsterMonitDetaliiDATE> sirAster;
-    String numePrimit = "";
+    AMDDadapter mAdapter;
+    String receivedName = "";
+    int receivedDiam, receivedSpeed;
+    Intent receivedIntent;
+    Handler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aster_monit_d_e_t_a_l_i_i);
+        setContentView(R.layout.activity_amdd);
 
-       // sirAster = new ArrayList<>();
-        rv = findViewById(R.id.dateleApropieriiUnuiAsterMonitoriz);
-      //  mAdapter = new AdapterAsterMonitorizDetaliiDATE(this, sirAster);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-      //  rv.setAdapter(mAdapter);
+        receivedIntent = getIntent();
+        receivedName = receivedIntent.getStringExtra(MonitoredAsteroidsActivity.NAME_MONITORIZED_ASTEROID);
+        receivedDiam = receivedIntent.getIntExtra(MonitoredAsteroidsActivity.DIAMETER, 0);
+        receivedSpeed = receivedIntent.getIntExtra(MonitoredAsteroidsActivity.SPEED, 0);
 
-        init();
-        Intent iPrimit = getIntent();
-        numePrimit = iPrimit.getStringExtra(AsteroMonitorizatiActivity.NUME_ASTRE_MONIT);
-        int diamPrimit = iPrimit.getIntExtra(AsteroMonitorizatiActivity.DIAMETRUL,0);
-        int vitezaPrimita = iPrimit.getIntExtra(AsteroMonitorizatiActivity.VITEZA,0);
-
-        nume.setText(numePrimit);
-        diametru.setText("Diametru= " + diamPrimit + " metri");
-
-        String vitezaString = String.valueOf(vitezaPrimita);
-        String vitezaCuVirgule = "";
-        for (int i = 0; i < vitezaString.length(); i++) {
-            if ((vitezaString.length() - i - 1) % 3 == 0) {
-                vitezaCuVirgule += Character.toString(vitezaString.charAt(i)) + ",";
-            } else {
-                vitezaCuVirgule+= Character.toString(vitezaString.charAt(i));
-            }
-        }
-        vitezaCuVirgule = vitezaCuVirgule.substring(0, vitezaCuVirgule.length() - 1);
-
-        viteza.setText("Viteza la intrarea in atmosfera= " + vitezaCuVirgule + "km/h");
-
-        ClasaAsyncPtDetaliiDate clasy = new ClasaAsyncPtDetaliiDate();
-        clasy.execute(linkPtDetaliiDATEasteroid());
+        initViews();
+        displayMonitorizedAsteroidDetails();
 
     }
 
+    void displayMonitorizedAsteroidDetails() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                monitorizedAsteroidDetailsArray = AMDDutils.getMonitorizedAsteroidDetails(urlForMonitorizedAsteroidDetails());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter = new AMDDadapter(AMDDactivity.this, monitorizedAsteroidDetailsArray);
+                        rv.setAdapter(mAdapter);
+                        loadingTV.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+        thread.start();
+    }
 
-    private String linkPtDetaliiDATEasteroid() {
-        // linkul arata asa:
-        // https://ssd-api.jpl.nasa.gov/sentry.api?des=2000%20SG344 (2000 SG344)
-        // adica se formeaza din primul cuvant, apoi %20, apoi ultimul cuvant
-        // si le extrag din numePrimit
-        String primul = numePrimit.substring(numePrimit.indexOf("(")+1, numePrimit.indexOf("(")+5);
-        String doilea = numePrimit.substring(numePrimit.lastIndexOf(" ") + 1, numePrimit.indexOf(")"));
+    private String urlForMonitorizedAsteroidDetails() {
+        // link:  https://ssd-api.jpl.nasa.gov/sentry.api?des=2000%20SG344 (2000 SG344)
+        String firstPart = receivedName.substring(receivedName.indexOf("(") + 1, receivedName.indexOf("(") + 5);
+        String lastPart = receivedName.substring(receivedName.lastIndexOf(" ") + 1, receivedName.indexOf(")"));
         String link = "https://ssd-api.jpl.nasa.gov/sentry.api?des="
-                + primul
+                + firstPart
                 + "%20"
-                + doilea;
-
-        // astea au fost pentru test, ca sa vad ca merge
-      //  String link = "https://ssd-api.jpl.nasa.gov/sentry.api?des=2000%20SG344";
-       // link = "https://ssd-api.jpl.nasa.gov/sentry.api?des=2018%20VP1";
+                + lastPart;
         return link;
     }
 
-    public class ClasaAsyncPtDetaliiDate extends AsyncTask<String, Void, ArrayList<AMDD>> {
+    private void initViews() {
+        monitorizedAsteroidDetailsArray = new ArrayList<>();
+        handler = new Handler(Looper.getMainLooper());
+        nameTV = findViewById(R.id.clickedNameTV);
+        diameterTV = findViewById(R.id.clickedDiameterTV);
+        speedTV = findViewById(R.id.clickedSpeedTV);
+        loadingTV = findViewById(R.id.textView16);
+        progressBar = findViewById(R.id.progressBar7);
 
-        @Override
-        protected ArrayList<AMDD> doInBackground(String... strings) {
-            ArrayList<AMDD> sir = UtilsPtAMDD.toateLaUnLoc(strings[0]);
-            return sir;
-        }
+        rv = findViewById(R.id.closenessDatesForAmonitoredAsteroidRV);
+        rv.setLayoutManager(new LinearLayoutManager(this));
 
-        @Override
-        protected void onPostExecute(ArrayList<AMDD> amdd) {
-            for (int i=0; i<amdd.size(); i++){
-                Log.i("element " + i + "= ",amdd.get(i) .getDistantaApropierii()+ "");
+        nameTV.setText(receivedName);
+        diameterTV.setText("Diametru= " + receivedDiam + " metri");
+
+        String speedString = String.valueOf(receivedSpeed);
+        String speedComma = "";
+        for (int i = 0; i < speedString.length(); i++) {
+            if ((speedString.length() - i - 1) % 3 == 0) {
+                speedComma += Character.toString(speedString.charAt(i)) + ",";
+            } else {
+                speedComma += Character.toString(speedString.charAt(i));
             }
-
-            mAdapter = new AdapterAMDD(AMDDactivity.this, amdd);
-            rv.setAdapter(mAdapter);
         }
-    }
-
-    private void init() {
-        nume = findViewById(R.id.textViewNumeleApasat);
-        diametru = findViewById(R.id.textViewDiametruApasat);
-        viteza = findViewById(R.id.textViewVitezaApasat);
+        speedComma = speedComma.substring(0, speedComma.length() - 1);
+        speedTV.setText("Viteza la intrarea in atmosfera= " + speedComma + "km/h");
     }
 
 

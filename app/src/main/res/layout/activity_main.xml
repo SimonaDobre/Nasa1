@@ -14,12 +14,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/infoTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/titleTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -35,53 +35,55 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/pictureOfTheDayIV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cropToPadding="false"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/ic_launcher_background"
+            tools:ignore="VectorDrawableCompat"
+            android:contentDescription="TODO" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/explanationTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/toMarsPicturesBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="catre poze MARS" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/toAsteroidsBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="catre asteroizi" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/toEarthPicturesBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="catre poze cu pamantul" />
 
         <Button
-            android:id="@+id/buttonMonitorizati"
+            android:id="@+id/toMonitoredBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="catre asteroizi monitorizati" />
+            android:text="catre asteroizii monitorizati" />
 
         <Button
-            android:id="@+id/buttonCautaPersonalizat"
+            android:id="@+id/toClosestAsteroidsBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cei care vor trece pe aproape" />
+            android:text="Asteroizi care vor trece foarte aproape de pamant" />
 
         <Button
-            android:id="@+id/buttonFireball"
+            android:id="@+id/fireballBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="catre cei care au lovit pamantul" />
+            android:text="harta cu asteroizii care au lovit pamantul" />
     </LinearLayout>
 </ScrollView>
