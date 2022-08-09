@@ -18,8 +18,6 @@ public class Fireball {
         this.longEW = longEW;
     }
 
-
-
     public String getDate() {
         return date;
     }

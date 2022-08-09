@@ -157,7 +157,6 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
         return false;
     }
 
-
     @Override
     public boolean onHover(View view, MotionEvent motionEvent) {
         return false;
