@@ -39,20 +39,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void getPictureOfTheDay() {
-        final PictureOfTheDay[] pz = new PictureOfTheDay[1];
+        final PictureOfTheDay[] potd = new PictureOfTheDay[1];
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 String apiUrl = linkForPictureOfTheDay();
-                pz[0] = UtilsFirstPage.obtainPictureOfTheDay(apiUrl);
+                potd[0] = UtilsFirstPage.obtainPictureOfTheDay(apiUrl);
 
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        titleTV.setText(pz[0].getTitle());
-                        explanationTV.setText(pz[0].getExplanation());
-                        if (pz[0].getMediaType().equals("image")) {
-                            Picasso.with(MainActivity.this).load(pz[0].getPictureURL()).into(pictureOfTheDay);
+                        titleTV.setText(potd[0].getTitle());
+                        explanationTV.setText(potd[0].getExplanation());
+                        if (potd[0].getMediaType().equals("image")) {
+                            Picasso.with(MainActivity.this).load(potd[0].getPictureURL()).into(pictureOfTheDay);
                             infoTV.setText("Poza zilei " + todayDate());
                         } else {
                             pictureOfTheDay.setVisibility(View.GONE);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                            linkForVideoTV.setText("Acesta este situl: " + pz[0].getPictureURL());
                             // linkForVideo.setMovementMethod(LinkMovementMethod.getInstance());
 //                            Linkify.addLinks(linkForVideoTV, Linkify.WEB_URLS);
-                            infoTV.setText("Filmul zilei de " + todayDate());
+//                            infoTV.setText("Filmul zilei de " + todayDate());
                         }
                     }
                 });

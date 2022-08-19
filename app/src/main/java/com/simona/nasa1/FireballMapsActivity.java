@@ -30,8 +30,8 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
     ArrayList<Fireball> fireballsArray;
     Handler handler;
 
-    // TUNGUSKA
-    // GOLFUL MEXIC
+    // TUNGUSKA ?
+    // GOLFUL MEXIC ?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
