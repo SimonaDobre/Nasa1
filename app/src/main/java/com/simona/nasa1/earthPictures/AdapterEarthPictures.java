@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class AdapterEarthPictures extends RecyclerView.Adapter<AdapterEarthPictures.ClasaViewHolder> {
 
     Context context;
-    ArrayList<EarthPicture> arrayPictures;
+    ArrayList<GeneralPicture> arrayPictures;
 
-    public AdapterEarthPictures(Context context, ArrayList<EarthPicture> arrayPictures) {
+    public AdapterEarthPictures(Context context, ArrayList<GeneralPicture> arrayPictures) {
         this.context = context;
         this.arrayPictures = arrayPictures;
     }
@@ -48,7 +48,7 @@ public class AdapterEarthPictures extends RecyclerView.Adapter<AdapterEarthPictu
 
     @Override
     public void onBindViewHolder(@NonNull ClasaViewHolder holder, int position) {
-        EarthPicture pp = arrayPictures.get(position);
+        GeneralPicture pp = arrayPictures.get(position);
         holder.dateTV.setText("Data pozei: " + pp.getDate());
         holder.latiLongiTV.setText("Latitudine=" + pp.getLatitude() + "; Longi=" + pp.getLongitude());
         holder.captureTV.setText(pp.getCaption());

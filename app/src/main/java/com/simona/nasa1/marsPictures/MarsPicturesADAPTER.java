@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.R;
+import com.simona.nasa1.earthPictures.GeneralPicture;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,9 +19,9 @@ import java.util.ArrayList;
 public class MarsPicturesADAPTER extends RecyclerView.Adapter<MarsPicturesADAPTER.ClasViewHolder> {
 
     Context context;
-    ArrayList<MarsPicture> arrayPictures;
+    ArrayList<GeneralPicture> arrayPictures;
 
-    public MarsPicturesADAPTER(Context context, ArrayList<MarsPicture> arrayPictures) {
+    public MarsPicturesADAPTER(Context context, ArrayList<GeneralPicture> arrayPictures) {
         this.context = context;
         this.arrayPictures = arrayPictures;
     }
@@ -51,7 +52,7 @@ public class MarsPicturesADAPTER extends RecyclerView.Adapter<MarsPicturesADAPTE
         holder.roverTV.setText("Captured by " + arrayPictures.get(position).getRover());
         holder.pictureIDtv.setText("Picture ID: " + arrayPictures.get(position).getPictureID());
 
-        MarsPicture pp = arrayPictures.get(position);
+        GeneralPicture pp = arrayPictures.get(position);
         String imageURL = pp.getPictureURL();
         Picasso.with(context).load(imageURL).into(holder.pictureIV);
     }

@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.monitoredAsteroids.MonitoredAsteroidInterface;
 import com.simona.nasa1.monitoredAsteroids.MonitoredAsteroid;
-import com.simona.nasa1.monitoredAsteroids.MonitoredAsteroidsUTILS;
 
 import java.util.ArrayList;
 
@@ -121,7 +120,7 @@ public class MonitoredAsteroidsActivity extends AppCompatActivity implements Mon
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                arrayMonitoredAsteroids = MonitoredAsteroidsUTILS.getMonitoredAsteroids(urlForMonitoredAsteroids());
+                arrayMonitoredAsteroids = UtilsGeneral.getMonitoredAsteroids(urlForMonitoredAsteroids());
 
                 handler.post(new Runnable() {
                     @Override

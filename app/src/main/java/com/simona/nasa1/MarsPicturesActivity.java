@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.simona.nasa1.earthPictures.GeneralPicture;
 import com.simona.nasa1.marsPictures.MarsPicturesADAPTER;
-import com.simona.nasa1.marsPictures.MarsPicture;
-import com.simona.nasa1.marsPictures.MarsPicturesUTILS;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class MarsPicturesActivity extends AppCompatActivity {
 
     RecyclerView rv;
     MarsPicturesADAPTER mAdapter;
-    ArrayList<MarsPicture> arrayMarsPictures;
+    ArrayList<GeneralPicture> arrayMarsPictures;
 //    String season, pressure;
 //    int minWindSpeed, maxWindSpeed, temperature;
 
@@ -50,7 +49,7 @@ public class MarsPicturesActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                arrayMarsPictures = MarsPicturesUTILS.getMarsPicturesArray(urlForMarsPictures());
+                arrayMarsPictures = UtilsGeneral.getMarsPicturesArray(urlForMarsPictures());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {

@@ -54,36 +54,36 @@
             android:id="@+id/toMarsPicturesBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="catre poze MARS" />
-
-        <Button
-            android:id="@+id/toAsteroidsBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="catre asteroizi" />
+            android:text="To MARS pictures" />
 
         <Button
             android:id="@+id/toEarthPicturesBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="catre poze cu pamantul" />
+            android:text="To Earth pictures" />
+
+        <Button
+            android:id="@+id/toAsteroidsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="to all asteroids" />
 
         <Button
             android:id="@+id/toMonitoredBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="catre asteroizii monitorizati" />
+            android:text="to monitored asteroids" />
 
         <Button
             android:id="@+id/toClosestAsteroidsBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Asteroizi care vor trece foarte aproape de pamant" />
+            android:text=" Asteroids that will pass very close to the earth" />
 
         <Button
             android:id="@+id/fireballBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="harta cu asteroizii care au lovit pamantul" />
+            android:text="map with the asteroids that hit the earth" />
     </LinearLayout>
 </ScrollView>

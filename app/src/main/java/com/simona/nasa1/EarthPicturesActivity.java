@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.earthPictures.AdapterEarthPictures;
-import com.simona.nasa1.earthPictures.EarthPicture;
-import com.simona.nasa1.earthPictures.UtilsEarthPictures;
+import com.simona.nasa1.earthPictures.GeneralPicture;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,7 @@ public class EarthPicturesActivity extends AppCompatActivity {
     ProgressBar progressBar;
     RecyclerView rv;
     AdapterEarthPictures mAdapter;
-    ArrayList<EarthPicture> arrayEarthPictures;
+    ArrayList<GeneralPicture> arrayEarthPictures;
     Handler handler;
 
     @Override
@@ -43,7 +42,7 @@ public class EarthPicturesActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                arrayEarthPictures = UtilsEarthPictures.getEarthPicturesArray(urlToEarthPictures());
+                arrayEarthPictures = UtilsGeneral.getEarthPicturesArray(urlToEarthPictures());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {

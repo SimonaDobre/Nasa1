@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.simona.nasa1.asteroid.AsteroidADAPTER;
 import com.simona.nasa1.asteroid.Asteroid;
 import com.simona.nasa1.asteroid.AsteroidsApproachingDatesInterface;
-import com.simona.nasa1.asteroid.AsteroidUTILS;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,7 +88,7 @@ public class AsteroidsActivity extends AppCompatActivity implements AsteroidsApp
             @Override
             public void run() {
                 String urlForAsteroids = URLlink();
-                arrayAsteroids = AsteroidUTILS.getAsteroidsListFromJson(urlForAsteroids);
+                arrayAsteroids = UtilsGeneral.getAsteroidsListFromJson(urlForAsteroids);
                 arrayAsteroidsFULL = new ArrayList<>(arrayAsteroids);
                 handler.post(new Runnable() {
                     @Override

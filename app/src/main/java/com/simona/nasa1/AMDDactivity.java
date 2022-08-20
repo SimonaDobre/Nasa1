@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.amdd.AMDD;
-import com.simona.nasa1.amdd.AMDDutils;
 import com.simona.nasa1.amdd.AMDDadapter;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class AMDDactivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                monitorizedAsteroidDetailsArray = AMDDutils.getMonitorizedAsteroidDetails(urlForMonitorizedAsteroidDetails());
+                monitorizedAsteroidDetailsArray = UtilsGeneral.getMonitorizedAsteroidDetails(urlForMonitorizedAsteroidDetails());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {

@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.simona.nasa1.fireball.Fireball;
-import com.simona.nasa1.fireball.FireballUTILS;
 
 import java.util.ArrayList;
 
@@ -64,7 +63,7 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
     }
 
     void getFireballs() {
-        fireballsArray = FireballUTILS.getFireballArray(urlFireballs());
+        fireballsArray = UtilsGeneral.getFireballArray(urlFireballs());
     }
 
     void displayHitPlaces() {

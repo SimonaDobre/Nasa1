@@ -18,14 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="afiseaza doar periculosi" />
+            android:text="show only dangerous" />
 
         <Button
             android:id="@+id/allAsteroidsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="afiseaza-i pe toti" />
+            android:text="show all" />
     </LinearLayout>
 
     <ProgressBar

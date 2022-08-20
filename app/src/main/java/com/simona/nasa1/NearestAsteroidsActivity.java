@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.nearestAsteroids.NearestAsteroid;
 import com.simona.nasa1.nearestAsteroids.NearestAsteroidsADAPTER;
-import com.simona.nasa1.nearestAsteroids.NearestAsteroidsUTILS;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class NearestAsteroidsActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                arrayNearestAsteroids = NearestAsteroidsUTILS.getDatesOfClosnessApproach(url());
+                arrayNearestAsteroids = UtilsGeneral.getDatesOfClosnessApproach(url());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {

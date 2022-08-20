@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.simona.nasa1.firstPagePictureOfTheDay.PictureOfTheDay;
-import com.simona.nasa1.firstPagePictureOfTheDay.UtilsFirstPage;
+import com.simona.nasa1.earthPictures.GeneralPicture;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -39,12 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void getPictureOfTheDay() {
-        final PictureOfTheDay[] potd = new PictureOfTheDay[1];
+        final GeneralPicture[] potd = new GeneralPicture[1];
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 String apiUrl = linkForPictureOfTheDay();
-                potd[0] = UtilsFirstPage.obtainPictureOfTheDay(apiUrl);
+                potd[0] = UtilsGeneral.obtainPictureOfTheDay(apiUrl);
 
                 handler.post(new Runnable() {
                     @Override
