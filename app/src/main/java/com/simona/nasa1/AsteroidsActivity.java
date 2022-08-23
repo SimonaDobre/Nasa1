@@ -69,13 +69,13 @@ public class AsteroidsActivity extends AppCompatActivity implements AsteroidsApp
         switch (clickedID) {
             case R.id.onlyDangerousAsteroidsBtn:
                 mAdapter.getFilter().filter("");
-                infoTV.setText("Toti asteroizii cotati ca fiind periculosi, care vor trece " +
-                        "pe langa Pamant, timp de 7 zile, incepand cu data de " + currentDate() + ":");
+                infoTV.setText("All dangerous asteroids which will pass the Earth " +
+                        "for 7 days, starting with " + currentDate() + ":");
                 break;
 
             case R.id.allAsteroidsBtn:
-                infoTV.setText("Toti asteroizii care vor trece pe langa Pamant, " +
-                        "timp de 7 zile, incepand cu data de " + currentDate());
+                infoTV.setText("All asteroids which will pass the Earth, " +
+                        "for 7 days, starting with " + currentDate());
                 arrayAsteroids.clear();
                 arrayAsteroids.addAll(arrayAsteroidsFULL);
                 refreshAdaptor();
@@ -93,8 +93,8 @@ public class AsteroidsActivity extends AppCompatActivity implements AsteroidsApp
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        infoTV.setText("Toti asteroizii care vor trece pe langa Pamant," +
-                                " timp de 7 zile, incepand cu data de " + currentDate());
+                        infoTV.setText("All asteroids which will pass the Earth," +
+                                "for 7 days, starting with " + currentDate());
                         refreshAdaptor();
                         progressBar.setVisibility(View.GONE);
                         loadingDataTV.setVisibility(View.GONE);

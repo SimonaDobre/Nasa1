@@ -77,9 +77,9 @@ public class AsteroidAproachingDatesActivity extends AppCompatActivity {
         receivedDiameter = j.getStringExtra(AsteroidsActivity.DIAMTERUL);
         receivedID = j.getStringExtra(AsteroidsActivity.IDUL);
 
-        nameTV.setText("Asteroidul \n" + receivedName);
-        diameterTV.setText("Diametrul maxim: " + receivedDiameter + "m");
-        infoTV.setText("Datele la care a trecut & va trece pe langa Pamant:");
+        nameTV.setText("Asteroid \n" + receivedName);
+        diameterTV.setText("Max diameter: " + receivedDiameter + "m");
+        infoTV.setText("All dates when it passed / will pass the Earth:");
 
         rv = findViewById(R.id.datesOfClosenessRV);
         rv.setLayoutManager(new LinearLayoutManager(this));

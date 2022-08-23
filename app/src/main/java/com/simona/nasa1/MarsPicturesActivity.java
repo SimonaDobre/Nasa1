@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.simona.nasa1.earthPictures.GeneralPicture;
 import com.simona.nasa1.marsPictures.MarsPicturesADAPTER;
 
 import java.text.SimpleDateFormat;
@@ -26,7 +25,7 @@ public class MarsPicturesActivity extends AppCompatActivity {
 //    String season, pressure;
 //    int minWindSpeed, maxWindSpeed, temperature;
 
-    TextView titleTV, infoGeneralTV, seasonTV, tempTV, presTV, maxWindSpeedTV, loadingPicturesTV;
+    TextView titleTV, tempTV, presTV, maxWindSpeedTV, loadingPicturesTV, infoGeneralTV, seasonTV;
     Handler handler;
 
     Calendar cal;
@@ -55,9 +54,9 @@ public class MarsPicturesActivity extends AppCompatActivity {
                     public void run() {
                         mAdapter = new MarsPicturesADAPTER(MarsPicturesActivity.this, arrayMarsPictures);
                         rv.setAdapter(mAdapter);
-                        tempTV.setText("Temperatura: -60 grade C");
-                        maxWindSpeedTV.setText("Viteza vantului: 36 km/h");
-                        presTV.setText("Presiunea: 750 P");
+                        tempTV.setText("Temperature: -60 C");
+                        maxWindSpeedTV.setText("Wind speed: 36 km/h");
+                        presTV.setText("Pressure: 750 P");
                         progressBar.setVisibility(View.GONE);
                         loadingPicturesTV.setVisibility(View.GONE);
                     }
@@ -67,8 +66,8 @@ public class MarsPicturesActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private String yesterday() {
-        cal.add(Calendar.DATE, -3);
+    private String picturesDate() {
+        cal.add(Calendar.DATE, -4);
         String yesterdayDate = shortDateFormat.format(cal.getTime());
         return yesterdayDate;
     }
@@ -80,7 +79,7 @@ public class MarsPicturesActivity extends AppCompatActivity {
     }
 
     private String urlForMarsPictures() {
-        String pictureDate = yesterday();
+        String pictureDate = picturesDate();
         String link = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date="
                 + pictureDate
                 + "&api_key=" + MainActivity.API_KEY;
@@ -95,14 +94,14 @@ public class MarsPicturesActivity extends AppCompatActivity {
         shortDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         titleTV = findViewById(R.id.infoTV);
-        titleTV.setText("Poze MARTE din data: " + yesterday());
-        infoGeneralTV = findViewById(R.id.infoWeatherTV);
-        infoGeneralTV.setText("Vremea pe Marte in data " + aDayBeforeYesterday());
+        titleTV.setText("Mars pictures from: " + picturesDate());
+//        infoGeneralTV = findViewById(R.id.infoWeatherTV);
+//        infoGeneralTV.setText("Mars weather from " + aDayBeforeYesterday());
         loadingPicturesTV = findViewById(R.id.textView2);
 
         progressBar = findViewById(R.id.progressBar3);
 
-        seasonTV = findViewById(R.id.seasonTV);
+//        seasonTV = findViewById(R.id.seasonTV);
         tempTV = findViewById(R.id.temperatureTV);
         presTV = findViewById(R.id.pressureTV);
         maxWindSpeedTV = findViewById(R.id.maxWindSpeedTV);

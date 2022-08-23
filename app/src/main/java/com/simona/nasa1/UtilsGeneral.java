@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.simona.nasa1.amdd.AMDD;
 import com.simona.nasa1.asteroid.Asteroid;
-import com.simona.nasa1.earthPictures.GeneralPicture;
 import com.simona.nasa1.fireball.Fireball;
 import com.simona.nasa1.marsWeather.MarsWeather;
 import com.simona.nasa1.monitoredAsteroids.MonitoredAsteroid;

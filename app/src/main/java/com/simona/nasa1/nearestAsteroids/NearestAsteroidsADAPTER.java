@@ -46,7 +46,7 @@ public class NearestAsteroidsADAPTER extends RecyclerView.Adapter<NearestAsteroi
         NearestAsteroid apa = arrayAsteroids.get(position);
 
         holder.nameTV.setText(apa.getName());
-        holder.dateTV.setText("Data apropierii de Pamant: " + apa.getDateOfApproach());
+        holder.dateTV.setText("Date of closeness to Earth: " + apa.getDateOfApproach() + ".");
 
         String dist = String.valueOf(apa.getDistance());
         String dist2= "";
@@ -60,7 +60,7 @@ public class NearestAsteroidsADAPTER extends RecyclerView.Adapter<NearestAsteroi
         }
         dist2 = dist2.substring(0, dist2.length()-1);
 
-        holder.distanceTV.setText("Distanta fata de Pamant: " + dist2 + " km");
+        holder.distanceTV.setText("Distance to Earth: " + dist2 + " km.");
 
         String speed1 = String.valueOf(apa.getSpeed());
         String speed2= "";
@@ -74,7 +74,7 @@ public class NearestAsteroidsADAPTER extends RecyclerView.Adapter<NearestAsteroi
         }
 
         speed2 = speed2.substring(0, speed2.length()-1);
-        holder.speedTV.setText("Viteza: " + speed2 + " km/h");
+        holder.speedTV.setText("Speed: " + speed2 + " km/h.");
     }
 
     @Override

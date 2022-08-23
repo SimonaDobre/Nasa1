@@ -75,7 +75,7 @@ public class MonitoredAsteroidsADAPTER extends RecyclerView.Adapter<MonitoredAst
             MonitoredAsteroid am = monitoredAsteroidsList.get(position);
             holder.nameTV.setText(am.getName());
             int diametr = am.getDiameter();
-            holder.diameterTV.setText("Diametru: " + diametr + "m");
+            holder.diameterTV.setText("Diameter: " + diametr + "m");
 
             int v1 = am.getSpeed();
             String speed1 = String.valueOf(v1);
@@ -90,9 +90,9 @@ public class MonitoredAsteroidsADAPTER extends RecyclerView.Adapter<MonitoredAst
             }
             speed2 = speed2.substring(0, speed2.length()-1);
 
-            holder.speedTV.setText("Viteza la intrarea in atmosfera: " + speed2 + " km/h.");
-            holder.hitPercentTV.setText("Sanse sa ne loveasca: " + (am.getHitProbabilityPercent()) + "%.");
-            holder.missPercentTV.setText("Sanse sa ne rateze: " + (am.getMissProbabilityPercent()) + "%.");
+            holder.speedTV.setText("Speed when enters the atmosphere: " + speed2 + " km/h.");
+            holder.hitPercentTV.setText("Chances to hit the Earth: " + (am.getHitProbabilityPercent()) + "%.");
+            holder.missPercentTV.setText("Chances to miss the Earth: " + (am.getMissProbabilityPercent()) + "%.");
             int oneChanceOfHowMany = (int) (am.getaChanceOutOfHowMany());
             String hitChances1 = String.valueOf(oneChanceOfHowMany);
             String hitChances2 = "";
@@ -104,9 +104,9 @@ public class MonitoredAsteroidsADAPTER extends RecyclerView.Adapter<MonitoredAst
                 }
             }
             hitChances2 = hitChances2.substring(0, hitChances2.length() - 1);
-            holder.aChanceOutOfHowManyTV.setText("Exista o sansa din " + hitChances2 + " sa ne loveasca.");
-            holder.lastTV.setText("Ultima data cand a fost observat: " + am.getLastObservationDate());
-            holder.nextTV.setText("\n Click aici pt a vedea urmatoarele date cand se va apropia de Pamant.");
+            holder.aChanceOutOfHowManyTV.setText("There's 1 chance out of " + hitChances2 + " to hit the Earth.");
+            holder.lastTV.setText("Last seen on: " + am.getLastObservationDate());
+            holder.nextTV.setText("\n Click this row to see all the closeness dates to Earth.");
           //  holder.next.setText(am.getUrmatoareaObs().get(0) + "; \n Click aici pt a vedea urmatoarele date cand se va apropia de Pamant");
         } catch (NullPointerException e) {
             e.printStackTrace();

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:enabled="false"
-            android:hint="cauta asteroid dupa nume"
+            android:hint="search an asteroid by name"
             android:inputType="textPersonName"
             android:visibility="invisible" />
 
@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="4dp"
-                    android:text="Sau filtreaza dupa diametru si probabilitatea de lovire:"
+                    android:text="or filter based on diameter or chances of hitting"
                     android:textSize="18sp"
                     android:visibility="invisible" />
 
@@ -58,7 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/diamteru"
+                        android:entries="@array/diameter"
                         android:visibility="invisible" />
 
                     <Spinner
@@ -66,7 +66,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/pericol"
+                        android:entries="@array/danger"
                         android:visibility="invisible" />
 
                     <Button
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:enabled="false"
-                        android:text="filtreaza" />
+                        android:text="filter" />
                 </LinearLayout>
             </LinearLayout>
 

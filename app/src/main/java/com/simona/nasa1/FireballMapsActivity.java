@@ -120,19 +120,19 @@ public class FireballMapsActivity extends FragmentActivity implements OnMapReady
 
                     int i = markersArray.indexOf(mar);
                     Fireball fb = fireballsArray.get(i);
-                    date.setText("Data = " + fb.getDate());
+                    date.setText("Date: " + fb.getDate());
                     double hiroshimaMultiplier = Double.parseDouble(fb.getEnergy());
-                    energy.setText("Energia= " + fb.getEnergy() + " kiloTone, adica  \n");
+                    energy.setText("Energy= " + fb.getEnergy() + " kiloTons, meaning  \n");
                     if (hiroshimaMultiplier < 15){
-                        energy.append("de " + String.format("%.2f", 15 / hiroshimaMultiplier) + " ori mai mica decat bomba de la Hiroshima");
+                        energy.append(String.format("%.2f", 15 / hiroshimaMultiplier) + " times lower than Hiroshima bomb.");
                     } else if (hiroshimaMultiplier == 15){
-                        energy.append("egala cu bomba de la Hiroshima");
+                        energy.append("equals to Hiroshima bomb.");
                     } else {
-                        energy.append("de " +  String.format("%.2f", hiroshimaMultiplier / 15) + " ori mai mare decat bomba de la Hiroshima");
+                        energy.append(String.format("%.2f", hiroshimaMultiplier / 15) + " times higher than Hiroshima bomb.");
                     }
 
-                    lat.setText("Latitudine= " + fb.getLatNr() + fb.getLatNS());
-                    lng.setText("Longitudine= " + fb.getLongNr() + fb.getLongEW());
+                    lat.setText("Latitude: " + fb.getLatNr() + fb.getLatNS());
+                    lng.setText("Longitude: " + fb.getLongNr() + fb.getLongEW());
 
                     // Returning the view containing InfoWindow contents
                     return v;

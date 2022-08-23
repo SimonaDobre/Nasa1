@@ -47,7 +47,7 @@ public class AMDDadapter extends RecyclerView.Adapter<AMDDadapter.ClassViewHolde
     @Override
     public void onBindViewHolder(@NonNull ClassViewHolderMonitoredAseroidDetails holder, int position) {
         AMDD am = asteroidDetailsArray.get(position);
-        holder.dateOfClosenessTV.setText("Data urmatoarei apropieri: " + am.getDate());
+        holder.dateOfClosenessTV.setText("Date of next closeness: " + am.getDate() + " .");
 
         String dist = String.valueOf(am.getDistance());
         String distComma= "";
@@ -60,9 +60,9 @@ public class AMDDadapter extends RecyclerView.Adapter<AMDDadapter.ClassViewHolde
             }
         }
         distComma = distComma.substring(0, distComma.length()-1);
-        holder.distanceTV.setText("Distanta la care se apropie: " + distComma + " km");
-        holder.hitPercentTV.setText("Probabilitatea sa ne loveasca: " + String.valueOf(am.getHitChancePercent()) + "%");
-        holder.missPercentTV.setText("Probabilitatea sa NU ne loveasca: " + String.valueOf(am.getMissChancePercent()) + "%");
+        holder.distanceTV.setText("Distance to Earth: " + distComma + " km.");
+        holder.hitPercentTV.setText("Probability of hitting the Earth: " + am.getHitChancePercent() + "%.");
+        holder.missPercentTV.setText("Probability of NOT hitting the Earth: " + am.getMissChancePercent() + "%.");
 
         String energy = String.valueOf(am.getHitEnergy());
         String energyComma= "";
@@ -75,7 +75,7 @@ public class AMDDadapter extends RecyclerView.Adapter<AMDDadapter.ClassViewHolde
             }
         }
         energyComma =  energyComma.substring(0,  energyComma.length()-1);
-        holder.energyTV.setText("Energia impactului: " +  energyComma + " megaTone");
+        holder.energyTV.setText("The impact energy: " +  energyComma + " megaTons.");
 
         String hitChances = String.valueOf(am.getaChanceOutOfHowMany());
         String hitChances2 = "";
@@ -88,7 +88,7 @@ public class AMDDadapter extends RecyclerView.Adapter<AMDDadapter.ClassViewHolde
             }
         }
         hitChances2 = hitChances2.substring(0, hitChances2.length()-1);
-        holder.aChanceOfHowManyTV.setText("Exista o sansa din " + hitChances2 + " sa ne loveasca");
+        holder.aChanceOfHowManyTV.setText("There's 1 chance out of " + hitChances2 + " to hit us.");
 
         String energiaExpl = String.valueOf(am.getHitEnergy()*1000/15);
         String energExplComma= "";
@@ -101,7 +101,7 @@ public class AMDDadapter extends RecyclerView.Adapter<AMDDadapter.ClassViewHolde
             }
         }
         energExplComma =  energExplComma.substring(0,  energExplComma.length()-1);
-        holder.energyExplanationTV.setText("adica de "+ energExplComma + " mai mare decat bomba de la Hiroshima");
+        holder.energyExplanationTV.setText("meaning "+ energExplComma + " times higher than Hiroshima bomb.");
 
     }
 

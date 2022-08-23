@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.earthPictures.AdapterEarthPictures;
-import com.simona.nasa1.earthPictures.GeneralPicture;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,7 +45,7 @@ public class EarthPicturesActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        infoTV.setText("Poze cu Terra din data de " + dateOfPictures() + ":");
+                        infoTV.setText("Earth pictures from " + dateOfPictures() + ":");
                         mAdapter = new AdapterEarthPictures(EarthPicturesActivity.this, arrayEarthPictures);
                         rv.setAdapter(mAdapter);
                         progressBar.setVisibility(View.GONE);

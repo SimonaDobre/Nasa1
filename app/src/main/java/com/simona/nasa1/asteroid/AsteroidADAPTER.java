@@ -65,10 +65,10 @@ public class AsteroidADAPTER extends RecyclerView.Adapter<AsteroidADAPTER.ClassV
     @Override
     public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
         Asteroid a = arrayAsteroids.get(position);
-        holder.nameTV.setText("Nume: " + a.getNameAsteroid());
-        holder.diamMinTV.setText("Diametru minim: " + a.getDiameterMin() + "m");
-        holder.diamMaxTV.setText("Diametru Maxim: " + a.getDiameterMax() + "m");
-        holder.speedTV.setText("Viteza la intrarea in atmosfera: " + a.getSpeed() + " km/h");
+        holder.nameTV.setText("Name: " + a.getNameAsteroid() + ". ");
+        holder.diamMinTV.setText("Min diameter: " + a.getDiameterMin() + "m.");
+        holder.diamMaxTV.setText("Max diameter: " + a.getDiameterMax() + "m.");
+        holder.speedTV.setText("Speed when enters into the atmosphere: " + a.getSpeed() + " km/h.");
         String distance = (a.getClosestApproachDistance());
         distance = distance.substring(0, distance.indexOf("."));
         String distantaDouble = "";
@@ -80,18 +80,18 @@ public class AsteroidADAPTER extends RecyclerView.Adapter<AsteroidADAPTER.ClassV
             }
         }
         distantaDouble = distantaDouble.substring(0, distantaDouble.length() - 1);
-        holder.closestKmTV.setText("Dist fata de Pamant: " + distantaDouble + " km");
+        holder.closestKmTV.setText("Distance to Earth: " + distantaDouble + " km.");
 
-        holder.closestDateTV.setText("Data la care va trece la distanta minima: " + a.getClosestApproachDate());
+        holder.closestDateTV.setText("Date when the asteroid will pass closest to the Earth : " + a.getClosestApproachDate() + ".");
 
-        holder.isDangerousTV.setText("E potential periculos: " + a.isDangerous());
+        holder.isDangerousTV.setText("Is it potentially dangerous? " + a.isDangerous() + ".");
         if (a.isDangerous()) {
             holder.isDangerousTV.setTextColor(Color.RED);
         } else {
             holder.isDangerousTV.setTextColor(Color.BLACK);
         }
 
-        holder.isSentryTV.setText("E monitorizat de Nasa: " + a.isSentryObject());
+        holder.isSentryTV.setText("Is it monitored by Nasa? " + a.isSentryObject() + ".");
         if (a.isSentryObject()) {
             holder.isSentryTV.setTextColor(Color.RED);
         } else {

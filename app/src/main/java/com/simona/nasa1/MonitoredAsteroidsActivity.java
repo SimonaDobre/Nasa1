@@ -92,15 +92,16 @@ public class MonitoredAsteroidsActivity extends AppCompatActivity implements Mon
             case R.id.filterBtn:
                 String selectedDiameter = diamSpinner.getSelectedItem().toString();
                 String selectedProbability = riscSpinner.getSelectedItem().toString();
-                if (selectedDiameter.equals("diametru(m)") && selectedProbability.equals("sanseLovire(%)")) {
-                    Toast.makeText(MonitoredAsteroidsActivity.this, "Alege un diametru sau o probabilitate! ", Toast.LENGTH_SHORT).show();
+                if (selectedDiameter.equals("diameter(m)") && selectedProbability.equals("hittingChances(%)")) {
+                    Toast.makeText(MonitoredAsteroidsActivity.this, "Please chose a diameter or a probability! ", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mAdapter.filterTheArrayBasedOnSelectedOptionFromSpinners(selectedDiameter, selectedProbability);
                 mAdapter.notifyDataSetChanged();
                 if (mAdapter.getItemCount() == 0) {
                     info1TV.setVisibility(View.VISIBLE);
-                    info1TV.setText("Nici un asteroid nu indeplineste criteriile de cautare. Va rog alegeti alt diametru si/sau alta probabilitate");
+                    info1TV.setText("There is no asteroid to meete the selected criteria. " +
+                            "Please chose a lower diameter and/or a lower chance of hitting!");
                 } else {
                     info1TV.setVisibility(View.GONE);
                 }

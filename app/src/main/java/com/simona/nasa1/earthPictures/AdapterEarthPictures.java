@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.simona.nasa1.GeneralPicture;
 import com.simona.nasa1.R;
 import com.squareup.picasso.Picasso;
 
@@ -49,8 +50,8 @@ public class AdapterEarthPictures extends RecyclerView.Adapter<AdapterEarthPictu
     @Override
     public void onBindViewHolder(@NonNull ClasaViewHolder holder, int position) {
         GeneralPicture pp = arrayPictures.get(position);
-        holder.dateTV.setText("Data pozei: " + pp.getDate());
-        holder.latiLongiTV.setText("Latitudine=" + pp.getLatitude() + "; Longi=" + pp.getLongitude());
+        holder.dateTV.setText("Date of the picture: " + pp.getDate() + ".");
+        holder.latiLongiTV.setText("Latitude=" + pp.getLatitude() + "; Longitude=" + pp.getLongitude() + ".");
         holder.captureTV.setText(pp.getCaption());
         Picasso.with(context).load(pp.getPictureURL()).into(holder.earthPictureIV);
     }

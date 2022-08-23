@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simona.nasa1.R;
-import com.simona.nasa1.earthPictures.GeneralPicture;
+import com.simona.nasa1.GeneralPicture;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

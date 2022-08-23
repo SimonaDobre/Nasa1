@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.simona.nasa1.earthPictures.GeneralPicture;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         explanationTV.setText(potd[0].getExplanation());
                         if (potd[0].getMediaType().equals("image")) {
                             Picasso.with(MainActivity.this).load(potd[0].getPictureURL()).into(pictureOfTheDay);
-                            infoTV.setText("Poza zilei " + todayDate());
+                            infoTV.setText("Picture of the day, on " + todayDate());
                         } else {
                             pictureOfTheDay.setVisibility(View.GONE);
 //                            linkForVideoTV.setVisibility(View.VISIBLE);

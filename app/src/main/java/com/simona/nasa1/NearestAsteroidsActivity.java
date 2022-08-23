@@ -68,7 +68,7 @@ public class NearestAsteroidsActivity extends AppCompatActivity {
         handler = new Handler(Looper.getMainLooper());
 
         tv = findViewById(R.id.info2TV);
-        tv.setText("Asteroizi care vor trece foarte aproape de Pamant, in urmatoarea perioada:");
+        tv.setText("Asteroids which will pass very close to Earth, during next months:");
         loadingTV = findViewById(R.id.textView4);
         progressBar = findViewById(R.id.progressBar5);
 

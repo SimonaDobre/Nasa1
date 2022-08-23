@@ -87,8 +87,8 @@ public class AMDDactivity extends AppCompatActivity {
         rv = findViewById(R.id.closenessDatesForAmonitoredAsteroidRV);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        nameTV.setText(receivedName);
-        diameterTV.setText("Diametru= " + receivedDiam + " metri");
+        nameTV.setText("Name: " + receivedName);
+        diameterTV.setText("Diameter= " + receivedDiam + " m.");
 
         String speedString = String.valueOf(receivedSpeed);
         String speedComma = "";
@@ -100,7 +100,7 @@ public class AMDDactivity extends AppCompatActivity {
             }
         }
         speedComma = speedComma.substring(0, speedComma.length() - 1);
-        speedTV.setText("Viteza la intrarea in atmosfera= " + speedComma + "km/h");
+        speedTV.setText("Speed on entering the atmosphere= " + speedComma + "km/h.");
     }
 
 

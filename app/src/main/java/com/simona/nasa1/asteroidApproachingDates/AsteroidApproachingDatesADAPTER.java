@@ -49,7 +49,7 @@ public class AsteroidApproachingDatesADAPTER extends RecyclerView.Adapter<Astero
     public void onBindViewHolder(@NonNull ClassViewHolDerDangerousAsteroid holder, int position) {
         NearestAsteroid acd = arrayClosenessDates.get(position);
 
-        holder.dateTV.setText("Data apropierii de Pamant: " + acd.getDateOfApproach());
+        holder.dateTV.setText("Date of closeness to Earth: " + acd.getDateOfApproach() + ".");
 
         String dist = String.valueOf(acd.getDistance());
         String dist2 = "";
@@ -62,7 +62,7 @@ public class AsteroidApproachingDatesADAPTER extends RecyclerView.Adapter<Astero
         }
         dist2 = dist2.substring(0, dist2.length() - 1);
 
-        holder.distanceTV.setText("Distanta fata de Pamant: " + dist2 + " km");
+        holder.distanceTV.setText("Distance to Earth: " + dist2 + " km.");
 
         // the same adapter can be used for the link-ul from NearestAsteroidsActivity
         // check conversion for lunar distance!
@@ -78,7 +78,7 @@ public class AsteroidApproachingDatesADAPTER extends RecyclerView.Adapter<Astero
         }
 
         speed2 = speed2.substring(0, speed2.length() - 1);
-        holder.speedTV.setText("Viteza: " + speed2 + " km/h");
+        holder.speedTV.setText("Speed: " + speed2 + " km/h.");
     }
 
     @Override

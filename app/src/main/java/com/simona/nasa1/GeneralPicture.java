@@ -1,4 +1,4 @@
-package com.simona.nasa1.earthPictures;
+package com.simona.nasa1;
 
 public class GeneralPicture {
     private String pictureURL;
